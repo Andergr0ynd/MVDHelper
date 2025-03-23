@@ -1,5 +1,5 @@
 script_name("MVDHelper")
-script_version("v1")
+script_version("v2")
 
 local imgui = require 'mimgui'
 local encoding = require 'encoding'
@@ -231,7 +231,7 @@ local sounds = {
 }
 
 -- Стили mimgui
-local colorList = {u8'Красная', u8'Синяя', u8'Фиолетовая', u8'Белая', u8'Черная'}
+local colorList = {'Красная', 'Синяя', 'Фиолетовая', 'Белая', 'Черная'}
 local colorListNumber = new.int(tonumber(settings.color.theme) or 0)
 local colorListBuffer = new['const char*'][#colorList](colorList)
 
@@ -245,51 +245,51 @@ imgui.OnFrame(function() return MenuMVD[0] end, function(player)
     imgui.Begin(u8'MVDHelper | Settings', MenuMVD, imgui.WindowFlags.NoResize)
     if imgui.BeginChild('Menu', imgui.ImVec2(180, 313), true) then
     imgui.Image(imhandle, imgui.ImVec2(160, 60))
-    if imgui.Button(u8'Настройки', imgui.ImVec2(160, 30)) then tab = 1 end
-    if imgui.Button(u8'Настройки | Отыгровки', imgui.ImVec2(160, 30)) then tab = 2 end
-    if imgui.Button(u8'Бинды | AutoHotkey', imgui.ImVec2(160, 30)) then tab = 3 end
-    if imgui.Button(u8'Дополнительно', imgui.ImVec2(160, 30)) then tab = 4 end
+    if imgui.Button('Настройки', imgui.ImVec2(160, 30)) then tab = 1 end
+    if imgui.Button('Настройки | Отыгровки', imgui.ImVec2(160, 30)) then tab = 2 end
+    if imgui.Button('Бинды | AutoHotkey', imgui.ImVec2(160, 30)) then tab = 3 end
+    if imgui.Button('Дополнительно', imgui.ImVec2(160, 30)) then tab = 4 end
     imgui.EndChild()
 end
     imgui.SameLine()
     if imgui.BeginChild('Function', imgui.ImVec2(440, 313), true) then
     if tab == 1 then
-	imgui.Text(u8'Интервал для setmark | msm')
+	imgui.Text('Интервал для setmark | msm')
 	if imgui.SliderInt('', slider_msm, 1, 5) then 
 	settings.slider_settings.slider_msm = slider_msm[0]
 	ini.save(settings, 'MVDHelper.ini')
 end
-	imgui.Text(u8'Интервал уведомлений')
+	imgui.Text('Интервал уведомлений')
 	if imgui.SliderInt(' ', slider_notification, 5, 10) then 
 	settings.slider_settings.slider_notification = slider_notification[0]
 	ini.save(settings, 'MVDHelper.ini')
 end
     imgui.Separator()
-	imgui.Text(u8'Громкость')
+	imgui.Text('Громкость')
 	if imgui.SliderInt("##volume", volume_settings, 0, 10) then
 	if music ~= nil then setAudioStreamVolume(music, volume.v / 10) end
 	settings.volume_settings.volume = volume_settings[0]
 	ini.save(settings, 'MVDHelper.ini')
 end
-	if imgui.Button(u8'Проверка звука', imgui.ImVec2(137, 30)) then
+	if imgui.Button('Проверка звука', imgui.ImVec2(137, 30)) then
 	playRandomSound()
 end
-    if imgui.Checkbox(u8'Включить звук', music_settings) then
+    if imgui.Checkbox('Включить звук', music_settings) then
     settings.volume_settings.music = music_settings[0]
     ini.save(settings, 'MVDHelper.ini')
 end
 
 elseif tab == 2 then
-    imgui.Text(u8'Для отыгровок')
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Nick_Name', u8'Имя Фамилия | Позывной', InputUsername, 256) then end
-	imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Тэг', u8'С', InputTag, 256) then end
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Звание', u8'Сержант', InputRang, 256) then end
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Отдел', u8'ДПС | ППС | ОМОН', InputOtdel, 256) then end
+    imgui.Text('Для отыгровок')
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint('Nick_Name', 'Имя Фамилия | Позывной', InputUsername, 256) then end
+	imgui.SetNextItemWidth(234)if imgui.InputTextWithHint('Тэг', 'С', InputTag, 256) then end
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint('Звание', 'Сержант', InputRang, 256) then end
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint('Отдел', 'ДПС | ППС | ОМОН', InputOtdel, 256) then end
 
     imgui.Separator()
-    imgui.Text(u8'Для рации')
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Тэг ', u8'С ', InputRRTag, 256) then end
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Пост | Патруль | Эвакуация ТС', u8'Фамилия', InputSurname, 256) then end
+    imgui.Text('Для рации')
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint('Тэг ', 'С ', InputRRTag, 256) then end
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint('Пост | Патруль | Эвакуация ТС', u8'Фамилия', InputSurname, 256) then end
 
     settings.player.username = u8:decode(str(InputUsername))
 	settings.player.tag = u8:decode(str(InputRang))
@@ -299,38 +299,38 @@ elseif tab == 2 then
     settings.player.rrtag = u8:decode(str(InputRRTag))
 	ini.save(settings, 'MVDHelper.ini')
 elseif tab == 3 then
-    imgui.Text(u8'Открытие настроек')
+    imgui.Text('Открытие настроек')
     if HotkeyCFGMenuMVD:ShowHotKey() then
     settings.hotkey_cfg.bind = encodeJson(HotkeyCFGMenuMVD:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
-    imgui.Text(u8'Открытие меню')
+    imgui.Text('Открытие меню')
     if HotkeyCFGFunction:ShowHotKey() then
     settings.hotkey_cfg.bind2 = encodeJson(HotkeyCFGFunction:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
-    imgui.Text(u8'Открытие КоАП')
+    imgui.Text('Открытие КоАП')
     if HotkeyCFGKoap:ShowHotKey() then
     settings.hotkey_cfg.bind3 = encodeJson(HotkeyCFGKoap:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
-    imgui.Text(u8'Остановка /setmark')
+    imgui.Text('Остановка /setmark')
     if HotkeyCFGMsm:ShowHotKey() then
     settings.hotkey_cfg.bind4 = encodeJson(HotkeyCFGMsm:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
 
 elseif tab == 4 then
-    if imgui.Button(faicons('eject') .. u8' Наш Discord', imgui.ImVec2(145, 30)) then
+    if imgui.Button(faicons('eject') .. ' Наш Discord', imgui.ImVec2(145, 30)) then
     os.execute("start https://discord.gg/5KDB5Nww3b")
 end
-    if imgui.Button(faicons('eject') .. u8' Наш Boosty', imgui.ImVec2(145, 30)) then
+    if imgui.Button(faicons('eject') .. ' Наш Boosty', imgui.ImVec2(145, 30)) then
     os.execute("start https://boosty.to/andergr0ynd")
         end
-    if imgui.Button(faicons('rotate') .. u8' Перезагрузить AHK', imgui.ImVec2(145, 30)) then
+    if imgui.Button(faicons('rotate') .. ' Перезагрузить AHK', imgui.ImVec2(145, 30)) then
     thisScript():reload()
         end
-    if imgui.Combo(faicons('palette') .. u8' Темы',colorListNumber,colorListBuffer, #colorList) then
+    if imgui.Combo(faicons('palette') .. ' Темы',colorListNumber,colorListBuffer, #colorList) then
     theme[colorListNumber[0]+1].change()
     settings.color.theme = tostring(colorListNumber[0])
     ini.save(settings, 'MVDHelper')
@@ -350,8 +350,8 @@ end)
 imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     imgui.SetNextWindowPos(imgui.ImVec2(500,500), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
     imgui.SetNextWindowSize(imgui.ImVec2(480, 420), imgui.Cond.Always)
-    imgui.Begin(u8'MVDHelper | КоАП', MenuKoap, imgui.WindowFlags.NoResize)
-    if imgui.Button(u8'КоАП | 01', imgui.ImVec2(230, 30)) then
+    imgui.Begin('MVDHelper | КоАП', MenuKoap, imgui.WindowFlags.NoResize)
+    if imgui.Button('КоАП | 01', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('01 Server')
     end
     if imgui.BeginPopupModal('01 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -360,14 +360,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 02', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 02', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('02 Server')
     end
     if imgui.BeginPopupModal('02 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -376,13 +376,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 03', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 03', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('03 Server')
     end
     if imgui.BeginPopupModal('03 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -391,14 +391,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 04', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 04', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('04 Server')
     end
     if imgui.BeginPopupModal('04 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -407,13 +407,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 05', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 05', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('05 Server')
     end
     if imgui.BeginPopupModal('05 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -422,14 +422,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 06', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 06', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('06 Server')
     end
     if imgui.BeginPopupModal('06 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -438,13 +438,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 07', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 07', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('07 Server')
     end
     if imgui.BeginPopupModal('07 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -453,14 +453,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 07 | Часть 2', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 07 | Часть 2', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('07 Server | Часть 2')
     end
     if imgui.BeginPopupModal('07 Server | Часть 2', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -469,13 +469,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 08', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 08', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('08 Server')
     end
     if imgui.BeginPopupModal('08 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -484,14 +484,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 09', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 09', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('09 Server')
     end
     if imgui.BeginPopupModal('09 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -500,13 +500,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 10', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 10', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('10 Server')
     end
     if imgui.BeginPopupModal('10 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -515,14 +515,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 11', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 11', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('11 Server')
     end
     if imgui.BeginPopupModal('11 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -531,13 +531,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 12', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 12', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('12 Server')
     end
     if imgui.BeginPopupModal('12 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -546,14 +546,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 13', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 13', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('13 Server')
     end
     if imgui.BeginPopupModal('13 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -562,13 +562,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 14', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 14', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('14 Server')
     end
     if imgui.BeginPopupModal('14 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -577,14 +577,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 15', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 15', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('15 Server')
     end
     if imgui.BeginPopupModal('15 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -593,13 +593,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 16', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 16', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('16 Server')
     end
     if imgui.BeginPopupModal('16 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -608,14 +608,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 17', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 17', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('17 Server')
     end
     if imgui.BeginPopupModal('17 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -624,13 +624,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 18', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 18', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('18 Server')
     end
     if imgui.BeginPopupModal('18 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -639,14 +639,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 19', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 19', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('19 Server')
     end
     if imgui.BeginPopupModal('19 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -655,13 +655,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'КоАП | 20', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 20', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('20 Server')
     end
     if imgui.BeginPopupModal('20 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -670,14 +670,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'КоАП | 21', imgui.ImVec2(230, 30)) then
+    if imgui.Button('КоАП | 21', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('21 Server')
     end
     if imgui.BeginPopupModal('21 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -686,7 +686,7 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
+    if imgui.Button('Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
@@ -740,13 +740,13 @@ function main()
     local users = getTableUsersByUrl(site)
     local _, myid = sampGetPlayerIdByCharHandle(playerPed)
     if not isAvailableUser(users, sampGetPlayerNickname(myid)) then
-    sampAddChatMessage('{FF0000}AHK не активирован. Обратитесь в Support за активацией!', -1)
-    print('AHK не активирован. Обратитесь в Support за активацией!')
+    sampAddChatMessage(u8:decode'{FF0000}AHK не активирован. Обратитесь в Support за активацией!', -1)
+    print(u8:decode'AHK не активирован. Обратитесь в Support за активацией!')
     thisScript():unload()
     end
     if isAvailableUser(users, sampGetPlayerNickname(myid)) then
-    sampAddChatMessage('{32CD32}AHK успешно активирован! Можете им пользоваться!', -1)
-    print('AHK успешно активирован! Можете им пользоваться!')
+    sampAddChatMessage(u8:decode'{32CD32}AHK успешно активирован! Можете им пользоваться!', -1)
+    print(u8:decode'AHK успешно активирован! Можете им пользоваться!')
     if autoupdate_loaded and enable_autoupdate and Update then
     pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
@@ -784,7 +784,7 @@ function main()
             stop = false 
             if activate then
                 activate = false
-                sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Слежка остановлена!', -1)
+                sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Слежка остановлена!', -1)
             end
             wait(500)
             end
@@ -825,11 +825,11 @@ end
     msm = arg
     if activate then
         activate = false
-        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Слежка окончена ID: '..msm, -1)
+        sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Слежка окончена ID: '..msm, -1)
     else
             if msm:match('%d+') then
                 activate = true
-        sampAddChatMessage("{006AFF}MVD Helper: {FFFFFF}Начал отслеживать ID: " ..msm, -1)
+        sampAddChatMessage(u8:decode"{006AFF}MVD Helper: {FFFFFF}Начал отслеживать ID: " ..msm, -1)
                
                 lua_thread.create(function ()
                     while activate do
@@ -840,11 +840,11 @@ end
                 lua_thread.create(function ()
                     while activate do
                         wait(slider_notification[0] * 1000)
-                        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Слежка идёт за: '..msm, -1)
+                        sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Слежка идёт за: '..msm, -1)
                     end
                 end)
             else
-        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел ID...', -1)
+        sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел ID...', -1)
             end
         end
     end
