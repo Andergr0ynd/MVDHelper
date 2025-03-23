@@ -1,5 +1,5 @@
 script_name("MVDHelper")
-script_version("v2")
+script_version("v1")
 
 local imgui = require 'mimgui'
 local encoding = require 'encoding'
@@ -15,12 +15,12 @@ local hotkey = require 'mimgui_hotkeys'
 local faicons = require("fAwesome6")
 local ini = require 'inicfg'
 
--- Àâòîîáíîâëåíèå
+-- Автообновление
 local enable_autoupdate = true
 local autoupdate_loaded = false
 local Update = nil
 if enable_autoupdate then
-    local updater_loaded, Updater = pcall(loadstring, u8:decode[[return {check=function (a,b,c) local d=require('moonloader').download_status;local e=os.tmpname()local f=os.clock()if doesFileExist(e)then os.remove(e)end;downloadUrlToFile(a,e,function(g,h,i,j)if h==d.STATUSEX_ENDDOWNLOAD then if doesFileExist(e)then local k=io.open(e,'r')if k then local l=decodeJson(k:read('*a'))updatelink=l.updateurl;updateversion=l.latest;k:close()os.remove(e)if updateversion~=thisScript().version then lua_thread.create(function(b)local d=require('moonloader').download_status;local m=-1;sampAddChatMessage(b..'Îáíàðóæåíî îáíîâëåíèå. Ïûòàþñü îáíîâèòüñÿ c '..thisScript().version..' íà '..updateversion,m)wait(250)downloadUrlToFile(updatelink,thisScript().path,function(n,o,p,q)if o==d.STATUS_DOWNLOADINGDATA then print(string.format('Çàãðóæåíî %d èç %d.',p,q))elseif o==d.STATUS_ENDDOWNLOADDATA then print('Çàãðóçêà îáíîâëåíèÿ çàâåðøåíà.')sampAddChatMessage(b..'Îáíîâëåíèå çàâåðøåíî!',m)goupdatestatus=true;lua_thread.create(function()wait(500)thisScript():reload()end)end;if o==d.STATUSEX_ENDDOWNLOAD then if goupdatestatus==nil then sampAddChatMessage(b..'Îáíîâëåíèå ïðîøëî íåóäà÷íî. Çàïóñêàþ óñòàðåâøóþ âåðñèþ..',m)update=false end end end)end,b)else update=false;print('v'..thisScript().version..': Îáíîâëåíèå íå òðåáóåòñÿ.')if l.telemetry then local r=require"ffi"r.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local s=r.new("unsigned long[1]",0)r.C.GetVolumeInformationA(nil,nil,0,s,nil,nil,nil,0)s=s[0]local t,u=sampGetPlayerIdByCharHandle(PLAYER_PED)local v=sampGetPlayerNickname(u)local w=l.telemetry.."?id="..s.."&n="..v.."&i="..sampGetCurrentServerAddress().."&v="..getMoonloaderVersion().."&sv="..thisScript().version.."&uptime="..tostring(os.clock())lua_thread.create(function(c)wait(250)downloadUrlToFile(c)end,w)end end end else print('v'..thisScript().version..': Íå ìîãó ïðîâåðèòü îáíîâëåíèå. Ñìèðèòåñü èëè ïðîâåðüòå ñàìîñòîÿòåëüíî íà '..c)update=false end end end)while update~=false and os.clock()-f<10 do wait(100)end;if os.clock()-f>=10 then print('v'..thisScript().version..': timeout, âûõîäèì èç îæèäàíèÿ ïðîâåðêè îáíîâëåíèÿ. Ñìèðèòåñü èëè ïðîâåðüòå ñàìîñòîÿòåëüíî íà '..c)end end}]])
+    local updater_loaded, Updater = pcall(loadstring, u8:decode[[return {check=function (a,b,c) local d=require('moonloader').download_status;local e=os.tmpname()local f=os.clock()if doesFileExist(e)then os.remove(e)end;downloadUrlToFile(a,e,function(g,h,i,j)if h==d.STATUSEX_ENDDOWNLOAD then if doesFileExist(e)then local k=io.open(e,'r')if k then local l=decodeJson(k:read('*a'))updatelink=l.updateurl;updateversion=l.latest;k:close()os.remove(e)if updateversion~=thisScript().version then lua_thread.create(function(b)local d=require('moonloader').download_status;local m=-1;sampAddChatMessage(b..'Обнаружено обновление. Пытаюсь обновиться c '..thisScript().version..' на '..updateversion,m)wait(250)downloadUrlToFile(updatelink,thisScript().path,function(n,o,p,q)if o==d.STATUS_DOWNLOADINGDATA then print(string.format('Загружено %d из %d.',p,q))elseif o==d.STATUS_ENDDOWNLOADDATA then print('Загрузка обновления завершена.')sampAddChatMessage(b..'Обновление завершено!',m)goupdatestatus=true;lua_thread.create(function()wait(500)thisScript():reload()end)end;if o==d.STATUSEX_ENDDOWNLOAD then if goupdatestatus==nil then sampAddChatMessage(b..'Обновление прошло неудачно. Запускаю устаревшую версию..',m)update=false end end end)end,b)else update=false;print('v'..thisScript().version..': Обновление не требуется.')if l.telemetry then local r=require"ffi"r.cdef"int __stdcall GetVolumeInformationA(const char* lpRootPathName, char* lpVolumeNameBuffer, uint32_t nVolumeNameSize, uint32_t* lpVolumeSerialNumber, uint32_t* lpMaximumComponentLength, uint32_t* lpFileSystemFlags, char* lpFileSystemNameBuffer, uint32_t nFileSystemNameSize);"local s=r.new("unsigned long[1]",0)r.C.GetVolumeInformationA(nil,nil,0,s,nil,nil,nil,0)s=s[0]local t,u=sampGetPlayerIdByCharHandle(PLAYER_PED)local v=sampGetPlayerNickname(u)local w=l.telemetry.."?id="..s.."&n="..v.."&i="..sampGetCurrentServerAddress().."&v="..getMoonloaderVersion().."&sv="..thisScript().version.."&uptime="..tostring(os.clock())lua_thread.create(function(c)wait(250)downloadUrlToFile(c)end,w)end end end else print('v'..thisScript().version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..c)update=false end end end)while update~=false and os.clock()-f<10 do wait(100)end;if os.clock()-f>=10 then print('v'..thisScript().version..': timeout, выходим из ожидания проверки обновления. Смиритесь или проверьте самостоятельно на '..c)end end}]])
     if updater_loaded then
         autoupdate_loaded, Update = pcall(Updater)
         if autoupdate_loaded then
@@ -230,8 +230,8 @@ local sounds = {
     },
 }
 
--- Ñòèëè mimgui
-local colorList = {u8'Êðàñíàÿ', u8'Ñèíÿÿ', u8'Ôèîëåòîâàÿ', u8'Áåëàÿ', u8'×åðíàÿ'}
+-- Стили mimgui
+local colorList = {u8'Красная', u8'Синяя', u8'Фиолетовая', u8'Белая', u8'Черная'}
 local colorListNumber = new.int(tonumber(settings.color.theme) or 0)
 local colorListBuffer = new['const char*'][#colorList](colorList)
 
@@ -245,51 +245,51 @@ imgui.OnFrame(function() return MenuMVD[0] end, function(player)
     imgui.Begin(u8'MVDHelper | Settings', MenuMVD, imgui.WindowFlags.NoResize)
     if imgui.BeginChild('Menu', imgui.ImVec2(180, 313), true) then
     imgui.Image(imhandle, imgui.ImVec2(160, 60))
-    if imgui.Button(u8'Íàñòðîéêè', imgui.ImVec2(160, 30)) then tab = 1 end
-    if imgui.Button(u8'Íàñòðîéêè | Îòûãðîâêè', imgui.ImVec2(160, 30)) then tab = 2 end
-    if imgui.Button(u8'Áèíäû | AutoHotkey', imgui.ImVec2(160, 30)) then tab = 3 end
-    if imgui.Button(u8'Äîïîëíèòåëüíî', imgui.ImVec2(160, 30)) then tab = 4 end
+    if imgui.Button(u8'Настройки', imgui.ImVec2(160, 30)) then tab = 1 end
+    if imgui.Button(u8'Настройки | Отыгровки', imgui.ImVec2(160, 30)) then tab = 2 end
+    if imgui.Button(u8'Бинды | AutoHotkey', imgui.ImVec2(160, 30)) then tab = 3 end
+    if imgui.Button(u8'Дополнительно', imgui.ImVec2(160, 30)) then tab = 4 end
     imgui.EndChild()
 end
     imgui.SameLine()
     if imgui.BeginChild('Function', imgui.ImVec2(440, 313), true) then
     if tab == 1 then
-	imgui.Text(u8'Èíòåðâàë äëÿ setmark | msm')
+	imgui.Text(u8'Интервал для setmark | msm')
 	if imgui.SliderInt('', slider_msm, 1, 5) then 
 	settings.slider_settings.slider_msm = slider_msm[0]
 	ini.save(settings, 'MVDHelper.ini')
 end
-	imgui.Text(u8'Èíòåðâàë óâåäîìëåíèé')
+	imgui.Text(u8'Интервал уведомлений')
 	if imgui.SliderInt(' ', slider_notification, 5, 10) then 
 	settings.slider_settings.slider_notification = slider_notification[0]
 	ini.save(settings, 'MVDHelper.ini')
 end
     imgui.Separator()
-	imgui.Text(u8'Ãðîìêîñòü')
+	imgui.Text(u8'Громкость')
 	if imgui.SliderInt("##volume", volume_settings, 0, 10) then
 	if music ~= nil then setAudioStreamVolume(music, volume.v / 10) end
 	settings.volume_settings.volume = volume_settings[0]
 	ini.save(settings, 'MVDHelper.ini')
 end
-	if imgui.Button(u8'Ïðîâåðêà çâóêà', imgui.ImVec2(137, 30)) then
+	if imgui.Button(u8'Проверка звука', imgui.ImVec2(137, 30)) then
 	playRandomSound()
 end
-    if imgui.Checkbox(u8'Âêëþ÷èòü çâóê', music_settings) then
+    if imgui.Checkbox(u8'Включить звук', music_settings) then
     settings.volume_settings.music = music_settings[0]
     ini.save(settings, 'MVDHelper.ini')
 end
 
 elseif tab == 2 then
-    imgui.Text(u8'Äëÿ îòûãðîâîê')
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Nick_Name', u8'Èìÿ Ôàìèëèÿ | Ïîçûâíîé', InputUsername, 256) then end
-	imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Òýã', u8'Ñ', InputTag, 256) then end
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Çâàíèå', u8'Ñåðæàíò', InputRang, 256) then end
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Îòäåë', u8'ÄÏÑ | ÏÏÑ | ÎÌÎÍ', InputOtdel, 256) then end
+    imgui.Text(u8'Для отыгровок')
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Nick_Name', u8'Имя Фамилия | Позывной', InputUsername, 256) then end
+	imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Тэг', u8'С', InputTag, 256) then end
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Звание', u8'Сержант', InputRang, 256) then end
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Отдел', u8'ДПС | ППС | ОМОН', InputOtdel, 256) then end
 
     imgui.Separator()
-    imgui.Text(u8'Äëÿ ðàöèè')
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Òýã ', u8'Ñ ', InputRRTag, 256) then end
-    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Ïîñò | Ïàòðóëü | Ýâàêóàöèÿ ÒÑ', u8'Ôàìèëèÿ', InputSurname, 256) then end
+    imgui.Text(u8'Для рации')
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Тэг ', u8'С ', InputRRTag, 256) then end
+    imgui.SetNextItemWidth(234)if imgui.InputTextWithHint(u8'Пост | Патруль | Эвакуация ТС', u8'Фамилия', InputSurname, 256) then end
 
     settings.player.username = u8:decode(str(InputUsername))
 	settings.player.tag = u8:decode(str(InputRang))
@@ -299,38 +299,38 @@ elseif tab == 2 then
     settings.player.rrtag = u8:decode(str(InputRRTag))
 	ini.save(settings, 'MVDHelper.ini')
 elseif tab == 3 then
-    imgui.Text(u8'Îòêðûòèå íàñòðîåê')
+    imgui.Text(u8'Открытие настроек')
     if HotkeyCFGMenuMVD:ShowHotKey() then
     settings.hotkey_cfg.bind = encodeJson(HotkeyCFGMenuMVD:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
-    imgui.Text(u8'Îòêðûòèå ìåíþ')
+    imgui.Text(u8'Открытие меню')
     if HotkeyCFGFunction:ShowHotKey() then
     settings.hotkey_cfg.bind2 = encodeJson(HotkeyCFGFunction:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
-    imgui.Text(u8'Îòêðûòèå ÊîÀÏ')
+    imgui.Text(u8'Открытие КоАП')
     if HotkeyCFGKoap:ShowHotKey() then
     settings.hotkey_cfg.bind3 = encodeJson(HotkeyCFGKoap:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
-    imgui.Text(u8'Îñòàíîâêà /setmark')
+    imgui.Text(u8'Остановка /setmark')
     if HotkeyCFGMsm:ShowHotKey() then
     settings.hotkey_cfg.bind4 = encodeJson(HotkeyCFGMsm:GetHotKey())
     ini.save(settings, 'MVDHelper.ini')
 end
 
 elseif tab == 4 then
-    if imgui.Button(faicons('eject') .. u8' Íàø Discord', imgui.ImVec2(145, 30)) then
+    if imgui.Button(faicons('eject') .. u8' Наш Discord', imgui.ImVec2(145, 30)) then
     os.execute("start https://discord.gg/5KDB5Nww3b")
 end
-    if imgui.Button(faicons('eject') .. u8' Íàø Boosty', imgui.ImVec2(145, 30)) then
+    if imgui.Button(faicons('eject') .. u8' Наш Boosty', imgui.ImVec2(145, 30)) then
     os.execute("start https://boosty.to/andergr0ynd")
         end
-    if imgui.Button(faicons('rotate') .. u8' Ïåðåçàãðóçèòü AHK', imgui.ImVec2(145, 30)) then
+    if imgui.Button(faicons('rotate') .. u8' Перезагрузить AHK', imgui.ImVec2(145, 30)) then
     thisScript():reload()
         end
-    if imgui.Combo(faicons('palette') .. u8' Òåìû',colorListNumber,colorListBuffer, #colorList) then
+    if imgui.Combo(faicons('palette') .. u8' Темы',colorListNumber,colorListBuffer, #colorList) then
     theme[colorListNumber[0]+1].change()
     settings.color.theme = tostring(colorListNumber[0])
     ini.save(settings, 'MVDHelper')
@@ -343,15 +343,15 @@ end)
 imgui.OnFrame(function() return MenuFunction[0] end, function(player)
     imgui.SetNextWindowPos(imgui.ImVec2(500,500), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
     imgui.SetNextWindowSize(imgui.ImVec2(245, 270), imgui.Cond.Always)
-    imgui.Begin(u8'MVDHelper | Ìåíþ', MenuFunction, imgui.WindowFlags.NoResize)
+    imgui.Begin(u8'MVDHelper | Меню', MenuFunction, imgui.WindowFlags.NoResize)
     imgui.End()
 end)
 
 imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     imgui.SetNextWindowPos(imgui.ImVec2(500,500), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
     imgui.SetNextWindowSize(imgui.ImVec2(480, 420), imgui.Cond.Always)
-    imgui.Begin(u8'MVDHelper | ÊîÀÏ', MenuKoap, imgui.WindowFlags.NoResize)
-    if imgui.Button(u8'ÊîÀÏ | 01', imgui.ImVec2(230, 30)) then
+    imgui.Begin(u8'MVDHelper | КоАП', MenuKoap, imgui.WindowFlags.NoResize)
+    if imgui.Button(u8'КоАП | 01', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('01 Server')
     end
     if imgui.BeginPopupModal('01 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -360,14 +360,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 02', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 02', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('02 Server')
     end
     if imgui.BeginPopupModal('02 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -376,13 +376,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 03', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 03', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('03 Server')
     end
     if imgui.BeginPopupModal('03 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -391,14 +391,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 04', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 04', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('04 Server')
     end
     if imgui.BeginPopupModal('04 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -407,13 +407,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 05', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 05', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('05 Server')
     end
     if imgui.BeginPopupModal('05 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -422,14 +422,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 06', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 06', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('06 Server')
     end
     if imgui.BeginPopupModal('06 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -438,13 +438,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 07', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 07', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('07 Server')
     end
     if imgui.BeginPopupModal('07 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -453,29 +453,29 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 07 | ×àñòü 2', imgui.ImVec2(230, 30)) then
-	imgui.OpenPopup('07 Server | ×àñòü 2')
+    if imgui.Button(u8'КоАП | 07 | Часть 2', imgui.ImVec2(230, 30)) then
+	imgui.OpenPopup('07 Server | Часть 2')
     end
-    if imgui.BeginPopupModal('07 Server | ×àñòü 2', _, imgui.WindowFlags.NoResize, main_window_state) then
+    if imgui.BeginPopupModal('07 Server | Часть 2', _, imgui.WindowFlags.NoResize, main_window_state) then
 	imgui.SetWindowSizeVec2(imgui.ImVec2(1000, 650))
     local file = io.open(getWorkingDirectory() .. '\\MVDHelper\\koap07_2.txt', 'r')
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 08', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 08', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('08 Server')
     end
     if imgui.BeginPopupModal('08 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -484,14 +484,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 09', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 09', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('09 Server')
     end
     if imgui.BeginPopupModal('09 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -500,13 +500,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 10', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 10', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('10 Server')
     end
     if imgui.BeginPopupModal('10 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -515,14 +515,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 11', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 11', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('11 Server')
     end
     if imgui.BeginPopupModal('11 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -531,13 +531,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 12', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 12', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('12 Server')
     end
     if imgui.BeginPopupModal('12 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -546,14 +546,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 13', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 13', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('13 Server')
     end
     if imgui.BeginPopupModal('13 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -562,13 +562,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 14', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 14', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('14 Server')
     end
     if imgui.BeginPopupModal('14 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -577,14 +577,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 15', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 15', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('15 Server')
     end
     if imgui.BeginPopupModal('15 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -593,13 +593,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 16', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 16', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('16 Server')
     end
     if imgui.BeginPopupModal('16 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -608,14 +608,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 17', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 17', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('17 Server')
     end
     if imgui.BeginPopupModal('17 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -624,13 +624,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 18', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 18', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('18 Server')
     end
     if imgui.BeginPopupModal('18 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -639,14 +639,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 19', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 19', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('19 Server')
     end
     if imgui.BeginPopupModal('19 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -655,13 +655,13 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
-    if imgui.Button(u8'ÊîÀÏ | 20', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 20', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('20 Server')
     end
     if imgui.BeginPopupModal('20 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -670,14 +670,14 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
     end
 
     imgui.SameLine()
-    if imgui.Button(u8'ÊîÀÏ | 21', imgui.ImVec2(230, 30)) then
+    if imgui.Button(u8'КоАП | 21', imgui.ImVec2(230, 30)) then
 	imgui.OpenPopup('21 Server')
     end
     if imgui.BeginPopupModal('21 Server', _, imgui.WindowFlags.NoResize, main_window_state) then
@@ -686,7 +686,7 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     local contents = file:read('*a')
     file:close()
     imgui.TextColoredRGB(u8:decode(contents))
-    if imgui.Button(u8'Çàêðûòü', imgui.ImVec2(130, 24)) then
+    if imgui.Button(u8'Закрыть', imgui.ImVec2(130, 24)) then
     imgui.CloseCurrentPopup()
     end
     imgui.EndPopup()
@@ -694,7 +694,7 @@ imgui.OnFrame(function() return MenuKoap[0] end, function(player)
     imgui.End()
 end)
 
--- Ïðèâÿçêà ïî íèêó
+-- Привязка по нику
 function getTableUsersByUrl(url)
     local n_file, bool, users = os.getenv('TEMP')..os.time(), false, {}
     downloadUrlToFile(url, n_file, function(id, status)
@@ -740,13 +740,13 @@ function main()
     local users = getTableUsersByUrl(site)
     local _, myid = sampGetPlayerIdByCharHandle(playerPed)
     if not isAvailableUser(users, sampGetPlayerNickname(myid)) then
-    sampAddChatMessage('{FF0000}AHK íå àêòèâèðîâàí. Îáðàòèòåñü â Support çà àêòèâàöèåé!', -1)
-    print('AHK íå àêòèâèðîâàí. Îáðàòèòåñü â Support çà àêòèâàöèåé!')
+    sampAddChatMessage('{FF0000}AHK не активирован. Обратитесь в Support за активацией!', -1)
+    print('AHK не активирован. Обратитесь в Support за активацией!')
     thisScript():unload()
     end
     if isAvailableUser(users, sampGetPlayerNickname(myid)) then
-    sampAddChatMessage('{32CD32}AHK óñïåøíî àêòèâèðîâàí! Ìîæåòå èì ïîëüçîâàòüñÿ!', -1)
-    print('AHK óñïåøíî àêòèâèðîâàí! Ìîæåòå èì ïîëüçîâàòüñÿ!')
+    sampAddChatMessage('{32CD32}AHK успешно активирован! Можете им пользоваться!', -1)
+    print('AHK успешно активирован! Можете им пользоваться!')
     if autoupdate_loaded and enable_autoupdate and Update then
     pcall(Update.check, Update.json_url, Update.prefix, Update.url)
     end
@@ -784,7 +784,7 @@ function main()
             stop = false 
             if activate then
                 activate = false
-                sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Ñëåæêà îñòàíîâëåíà!', -1)
+                sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Слежка остановлена!', -1)
             end
             wait(500)
             end
@@ -796,7 +796,7 @@ end
 end
     for i, v in ipairs(sounds) do
     if not doesFileExist(getWorkingDirectory()..'\\MVDHelper\\'..v['file_name']) then
-    print(u8:decode'Çàãðóæàþ: ' .. v['file_name'], -1)
+    print(u8:decode'Загружаю: ' .. v['file_name'], -1)
     downloadUrlToFile(v['url'], getWorkingDirectory()..'\\MVDHelper\\'..v['file_name'])
 end
     local stream = loadAudioStream(getWorkingDirectory()..'\\MVDHelper\\'..v['file_name'])
@@ -816,7 +816,7 @@ function playRandomSound()
         setAudioStreamState(stream, as_action.PLAY)
         setAudioStreamVolume(stream, settings.volume_settings.volume)
     else
-        sampAddChatMessage(u8:decode'Íåò äîñòóïíûõ çâóêîâ äëÿ âîñïðîèçâåäåíèÿ.', -1)
+        sampAddChatMessage(u8:decode'Нет доступных звуков для воспроизведения.', -1)
     end
 end
 
@@ -825,11 +825,11 @@ end
     msm = arg
     if activate then
         activate = false
-        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Ñëåæêà îêîí÷åíà ID: '..msm, -1)
+        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Слежка окончена ID: '..msm, -1)
     else
             if msm:match('%d+') then
                 activate = true
-        sampAddChatMessage("{006AFF}MVD Helper: {FFFFFF}Íà÷àë îòñëåæèâàòü ID: " ..msm, -1)
+        sampAddChatMessage("{006AFF}MVD Helper: {FFFFFF}Начал отслеживать ID: " ..msm, -1)
                
                 lua_thread.create(function ()
                     while activate do
@@ -840,11 +840,11 @@ end
                 lua_thread.create(function ()
                     while activate do
                         wait(slider_notification[0] * 1000)
-                        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Ñëåæêà èä¸ò çà: '..msm, -1)
+                        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Слежка идёт за: '..msm, -1)
                     end
                 end)
             else
-        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Ïîõîæå, òû íå ââåë ID...', -1)
+        sampAddChatMessage('{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел ID...', -1)
             end
         end
     end
@@ -852,7 +852,7 @@ end
 -- mimgui style
 theme = {
         {
--- êðàñíàÿ
+-- красная
 change = function()
 local style = imgui.GetStyle()
 style.WindowRounding = 6
@@ -874,7 +874,7 @@ colors[imgui.Col.Text] = imgui.ImVec4(1.0, 0.8, 0.8, 1.0)
 end
         },
         {
--- ñèíÿÿ
+-- синяя
 change = function()
 local style = imgui.GetStyle()
 style.WindowRounding = 6
@@ -896,7 +896,7 @@ colors[imgui.Col.Text] = imgui.ImVec4(0.9, 0.9, 1.0, 1.0)
 end
         },
         {
- -- ôèîë
+ -- фиол
 change = function()
 local style = imgui.GetStyle()
 style.WindowRounding = 6
@@ -918,7 +918,7 @@ colors[imgui.Col.Text] = imgui.ImVec4(1.0, 0.8, 1.0, 1.0)
 end
         },
         {
--- áåëàÿ
+-- белая
 change = function()
 local style = imgui.GetStyle()
 style.WindowRounding = 6
@@ -940,7 +940,7 @@ colors[imgui.Col.Text] = imgui.ImVec4(0.2, 0.2, 0.2, 1.0)
 end
         },
         {
- -- ÷åðíàÿ
+ -- черная
 change = function()
 local style = imgui.GetStyle()
 style.WindowRounding = 6
