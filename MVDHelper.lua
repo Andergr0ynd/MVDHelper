@@ -46,7 +46,7 @@
             bind5 = '[]',
         },
         slider_settings = {
-            slider_msm = 1,
+            slider_msm = 5,
             slider_notification = 5,
             slider_text = 5,
         },
@@ -308,7 +308,7 @@
         if imgui.BeginChild('Function', imgui.ImVec2(580, 313), true) then
         if tab == 1 then
 	    imgui.Text('Интервал для setmark | msm')
-	    if imgui.SliderInt(faicons('clock') .. '', slider_msm, 1, 5) then 
+	    if imgui.SliderInt(faicons('clock') .. '', slider_msm, 1, 10) then 
 	    settings.slider_settings.slider_msm = slider_msm[0]
 	    ini.save(settings, 'MVDHelper.ini')
     end
