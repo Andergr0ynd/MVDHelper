@@ -1614,7 +1614,7 @@
         thisScript():unload()
         end
         if isAvailableUser(users, sampGetPlayerNickname(myid)) then
-        sampAddChatMessage(u8:decode'{32CD32}AHK успешно активирован! Можете им пользоваться!', -1)
+        sampAddChatMessage(u8:decode'{32CD32}AHK успешно активирован! Можете им пользоваться! Открыть ALT + 3', -1)
         print(u8:decode'AHK успешно активирован! Можете им пользоваться! Открыть ALT + 3')
         if autoupdate_loaded and enable_autoupdate and Update then
         pcall(Update.check, Update.json_url, Update.prefix, Update.url)
