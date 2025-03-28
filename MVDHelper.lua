@@ -1642,6 +1642,7 @@
         sampRegisterChatCommand('mejectout', mejectout)
         sampRegisterChatCommand('msearch', msearch)
         sampRegisterChatCommand('mattach', mattach)
+        sampRegisterChatCommand('r', r)
 	    lua_thread.create(function()
         HotkeyCFGMenuMVD = hotkey.RegisterHotKey('HotkeyCFGMenuMVD', false, decodeJson(settings.hotkey_cfg.bind), function()
             if not sampIsCursorActive() then
@@ -1766,6 +1767,13 @@
         end
     end
 
+    function r(arg)
+    if arg:find('(.*)') then
+    sampSendChat('/r ['..settings.player.tag..'] '..arg)
+    else
+                sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел ID...', -1)
+            end
+end
 
      function msm(arg)
      if enabling_msm[0] then
