@@ -1,5 +1,5 @@
     script_name("MVDHelper")
-    script_version("v3.01")
+    script_version("v3.02")
 
     local imgui = require 'mimgui'
     local encoding = require 'encoding'
@@ -466,7 +466,7 @@
         text = u8:decode(ffi.string(inputField))
         if text:find('(%d+)') then
         lua_thread.create(function()
-        sampSendChat(u8:decode"[МВД] Волна государственных новостей свободна на " ..text.. "?" ,-1)
+        sampSendChat(u8:decode"/d [МВД] Волна государственных новостей свободна на " ..text.. "?" ,-1)
         end)
             else
                 sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел время...', -1)
@@ -491,7 +491,7 @@
         text = u8:decode(ffi.string(inputField))
         if text:find('(%d+)') then
         lua_thread.create(function()
-        sampSendChat(u8:decode"[МВД] Не услышав ответа, занимаю волну государственных новостей на " ..text.. "!" ,-1)
+        sampSendChat(u8:decode"/d [МВД] Не услышав ответа, занимаю волну государственных новостей на " ..text.. "!" ,-1)
         end)
             else
                 sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел время...', -1)
@@ -515,7 +515,7 @@
         text = u8:decode(ffi.string(inputField))
         if text:find('(%d+)') then
         lua_thread.create(function()
-        sampSendChat(u8:decode"[МВД] Напоминаю, что волна государственных новостей занята на " ..text.. "!" ,-1)
+        sampSendChat(u8:decode"/d [МВД] Напоминаю, что волна государственных новостей занята на " ..text.. "!" ,-1)
         end)
             else
                 sampAddChatMessage(u8:decode'{006AFF}MVD Helper: {FFFFFF}Похоже, ты не ввел время...', -1)
