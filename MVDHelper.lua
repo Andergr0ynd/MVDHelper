@@ -1,5 +1,5 @@
     script_name("MVDHelper")
-    script_version("v3.01")
+    script_version("v3")
 
     local imgui = require 'mimgui'
     local encoding = require 'encoding'
@@ -451,7 +451,7 @@
 
         imgui.OnFrame(function() return MenuLeader[0] end, function(player)
         imgui.SetNextWindowPos(imgui.ImVec2(500,500), imgui.Cond.FirstUseEver, imgui.ImVec2(0.5, 0.5))
-        imgui.SetNextWindowSize(imgui.ImVec2(480, 300), imgui.Cond.Always)
+        imgui.SetNextWindowSize(imgui.ImVec2(480, 310), imgui.Cond.Always)
         imgui.Begin('MVDHelper | Лидер', MenuLeader, imgui.WindowFlags.NoResize)
         
         if imgui.Button('Госка | Спросить', imgui.ImVec2(230, 30)) then
@@ -600,6 +600,48 @@
         if imgui.Button('Собрать на строй', imgui.ImVec2(230, 30)) then
         lua_thread.create(function()
         sampSendChat(u8:decode'/r ['..settings.player.tag..'] Строй на плацу! Готовность 5 минут! Кого нет - выговор.')
+            end)
+        end
+
+        imgui.SameLine()
+        if imgui.Button('Вы на собеседование?', imgui.ImVec2(230, 30)) then
+        lua_thread.create(function()
+        sampSendChat(u8:decode'Здравия желаю, Вас приветствует '..settings.player.rang..' МВД - '..settings.player.username..'')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'Вы пришли к нам на собеседование?')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'Если да, покажите ваши документы, а именно: паспорт, лицензии и медицинскую карту. ')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'/n /pass, /lic, /showmc. по РП, 3 РП строки')
+            end)
+        end
+
+        if imgui.Button('Тест небольшой', imgui.ImVec2(230, 30)) then
+        lua_thread.create(function()
+        sampSendChat(u8:decode'/n Теперь другой тест.')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'/n При каждом выходе в AFK будет считаться за ошибку')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'/n Что означает следующие: ДМ, ТК, СК, FF')
+            end)
+        end
+
+        imgui.SameLine()
+        if imgui.Button('Тест небольшой #2', imgui.ImVec2(230, 30)) then
+        lua_thread.create(function()
+        sampSendChat(u8:decode'Теперь небольшой тест.')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'Что по вашему значит "ТК","МГ" и "ДМ" ?')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'Что у меня над головой?')
+            end)
+        end
+
+        if imgui.Button('Увы, проф.непригодность', imgui.ImVec2(230, 30)) then
+        lua_thread.create(function()
+        sampSendChat(u8:decode'К сожaлению вы нам не подходите')
+        wait(slider_text[0] * 100)
+        sampSendChat(u8:decode'Причина: Проф.непригодность')
             end)
         end
 
