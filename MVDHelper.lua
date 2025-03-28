@@ -1,5 +1,5 @@
     script_name("MVDHelper")
-    script_version("v3")
+    script_version("v3.01")
 
     local imgui = require 'mimgui'
     local encoding = require 'encoding'
