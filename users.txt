@@ -22,3 +22,4 @@ Vasya_Kotow: 31.02.2025
 Kozus_Sokolov: 31.12.2030
 Rinat_Bugor: 31.12.2030
 Ivan_Krastowski: 31.12.2030
+Anton_Tyumenskiy: 31.12.2030
